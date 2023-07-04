@@ -1,7 +1,4 @@
-<header class="p-3">
-    {{-- <img class="logo" src="{{ Vite::asset('resources/img/logo.png') }}" alt="Laravel Logo">
-    <span>Some links: </span>
-    @foreach ($links as $link)
-        <a href="{{ $link['href'] }}">{{ $link['text'] }}</a>
-    @endforeach --}}
+<header class="p-3 navbar d-flex px-5">
+    <h1>COMIC-STORE</h1>
+    <button class="btn btn-primary me-5">Inserisci</button>
 </header>

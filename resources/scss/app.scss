@@ -23,6 +23,31 @@ footer {
     color: black;
 }
 
-header img.logo {
-    height: 2rem;
+
+
+.comicCard{
+    width: calc(100% / 5);
+    height: 600px;
+    object-fit: cover;
+
+    img{
+        width: 100%;
+        height: 400px;
+        
+    }
+
+}
+
+.comicImg{
+    width: 350px;
+    
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+.card{
+    background-color: #222;
 }
