@@ -2,7 +2,14 @@
 @section('page-title', 'Title Override: Other Page')
 @section('content')
     <div class="container-lg p-5">
-        <button class="btn btn-primary"><a href="{{route("comics.edit", $comic->id)}}">Modifica prodotto</a></button>
+        <div class="buttonContainer d-flex ">
+            <button class="btn btn-primary me-3"><a href="{{ route('comics.edit', $comic->id) }}">Modifica prodotto</a></button>
+            <form action="{{ route('comics.destroy', $comic) }}" method="post">
+                @csrf
+                @method('DELETE')
+                <input class="btn btn-primary" type="submit" value="Cancella Prodotto">
+            </form>
+        </div>
         <div class="singleCard">
             <h1 class="mb-4">{{ $comic->title }}</h1>
 
