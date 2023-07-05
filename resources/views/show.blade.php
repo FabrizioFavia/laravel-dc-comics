@@ -2,6 +2,7 @@
 @section('page-title', 'Title Override: Other Page')
 @section('content')
     <div class="container-lg p-5">
+        <button class="btn btn-primary"><a href="{{route("comics.edit", $comic->id)}}">Modifica prodotto</a></button>
         <div class="singleCard">
             <h1 class="mb-4">{{ $comic->title }}</h1>
 
