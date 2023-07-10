@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreComicRequest;
+use App\Http\Requests\UpdateComicRequest;
 use App\Models\Comic;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class ComicController extends Controller
 {
@@ -29,64 +30,15 @@ class ComicController extends Controller
         return view('create');
     }
 
-    private function validateComics($data)
-    {
-        $validator = Validator::make($data, [
-            "title" => "required|min:5|max:255",
-            "description" => "max:65535",
-            "thumb" => "required|min:5|max:65535",
-            "price" => "required|min:5",
-            "series" => "required|min:5|max:255",
-            "sale_date" => "max:10",
-            "type" => "required|min:5|max:30",
-            "artists" => "required|min:10|max:255",
-            "writers" => "required|min:10|max:255",
-        ], [
-            "title.required" => "Il titolo è richiesto",
-            "title.min" => "Il titolo deve essere almeno di :min caratteri",
-            "title.max" => "Il titolo non può superare i :max caratteri",
-
-            "description.min" => "La descrizione deve essere almeno di :min caratteri",
-            "description.max" => "La descrizione non può superare i :max caratteri",
-
-            "thumb.required" => "L'immagine è richiesta",
-            "thumb.min" => "L'immagine deve essere almeno di :min caratteri",
-            "thumb.max" => "L'immagine non può superare i :max caratteri",
-
-            "price.required" => "Il prezzo è richiesto",
-            "price.min" => "Il prezzo deve essere almeno di :min caratteri",
-            "price.max" => "Il prezzo non può superare i :max caratteri",
-
-            "series.required" => "La serie è richiesta",
-            "series.min" => "La serie deve essere almeno di :min caratteri",
-            "series.max" => "La serie non può superare i :max caratteri",
-
-            "sale_date.min" => "La data deve essere almeno di :min caratteri",
-            "sale_date.max" => "La data non può superare i :max caratteri",
-
-            "type.required" => "Il tipo è richiesto",
-            "type.min" => "Il tipo deve essere almeno di :min caratteri",
-            "type.max" => "Il tipo non può superare i :max caratteri",
-
-            "artists.required" => "L'artista è richiesto",
-            "artists.min" => "L'artista deve essere almeno di :min caratteri",
-            "artists.max" => "L'artista non può superare i :max caratteri",
-
-            "writers.required" => "Lo scrittore è richiesto",
-            "writers.min" => "Lo scrittore deve essere almeno di :min caratteri",
-            "writers.max" => "Lo scrittore non può superare i :max caratteri",
-        ])->validate();
-
-        return $validator;
-    }
+    
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreComicRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreComicRequest $request)
     {
 
         /* VALIDAZIONE CAMPI */
@@ -103,9 +55,13 @@ class ComicController extends Controller
             $data = $request->all();
         ]); */
 
-        $data = $this->validateComics($request->all());
+        $data = $request->validated();
 
         $newComic = new Comic();
+        $newComic->fill($data);
+        $newComic->save();
+
+        /* $newComic = new Comic();
         $newComic->title = $data['title'];
         $newComic->description = $data['description'];
         $newComic->thumb = $data['thumb'];
@@ -115,7 +71,7 @@ class ComicController extends Controller
         $newComic->type = $data['type'];
         $newComic->artists = "";
         $newComic->writers = "";
-        $newComic->save();
+        $newComic->save(); */
 
         return redirect()->route('comics.show', $newComic->id);
     }
@@ -146,16 +102,16 @@ class ComicController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\UpdateComicRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comic $comic)
+    public function update(UpdateComicRequest $request, Comic $comic)
     {
 
-        $data = $this->validateComics($request->all());
+        $data=$request->validated();
 
-        $comic->title = $data['title'];
+        /* $comic->title = $data['title'];
         $comic->description = $data['description'];
         $comic->thumb = $data['thumb'];
         $comic->price = $data['price'];
@@ -163,7 +119,8 @@ class ComicController extends Controller
         $comic->sale_date = $data['sale_date'];
         $comic->type = $data['type'];
         $comic->artists = "";
-        $comic->writers = "";
+        $comic->writers = ""; */
+        $comic->fill($data);
         $comic->update();
 
         return redirect()->route('comics.show', $comic->id);
